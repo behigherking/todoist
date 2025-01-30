@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Задачи">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Описание" Type="nvarchar" MaxLength="255" />
+          <Property Name="Статус" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ID_Проекта" Type="int" />
+          <Property Name="ID_Пользователя" Type="int" />
+          <Property Name="Дата_создания" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Комментарии">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Текст" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="ID_Задачи" Type="int" />
+          <Property Name="ID_Пользователя" Type="int" />
+          <Property Name="Дата_создания" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Пользователи">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Имя" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Почта" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Проекты">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Описание" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK__Задачи__ID_Польз__3E52440B">
+          <End Role="Пользователи" Type="Self.Пользователи" Multiplicity="0..1" />
+          <End Role="Задачи" Type="Self.Задачи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователи">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Задачи">
+              <PropertyRef Name="ID_Пользователя" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Задачи__ID_Проек__3D5E1FD2">
+          <End Role="Проекты" Type="Self.Проекты" Multiplicity="0..1" />
+          <End Role="Задачи" Type="Self.Задачи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Проекты">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Задачи">
+              <PropertyRef Name="ID_Проекта" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Комментар__ID_За__4222D4EF">
+          <End Role="Задачи" Type="Self.Задачи" Multiplicity="0..1" />
+          <End Role="Комментарии" Type="Self.Комментарии" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Задачи">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Комментарии">
+              <PropertyRef Name="ID_Задачи" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Комментар__ID_По__4316F928">
+          <End Role="Пользователи" Type="Self.Пользователи" Multiplicity="0..1" />
+          <End Role="Комментарии" Type="Self.Комментарии" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователи">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Комментарии">
+              <PropertyRef Name="ID_Пользователя" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ModelContainer">
+          <EntitySet Name="Задачи" EntityType="Self.Задачи" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Комментарии" EntityType="Self.Комментарии" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Пользователи" EntityType="Self.Пользователи" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Проекты" EntityType="Self.Проекты" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Задачи__ID_Польз__3E52440B" Association="Self.FK__Задачи__ID_Польз__3E52440B">
+            <End Role="Пользователи" EntitySet="Пользователи" />
+            <End Role="Задачи" EntitySet="Задачи" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Задачи__ID_Проек__3D5E1FD2" Association="Self.FK__Задачи__ID_Проек__3D5E1FD2">
+            <End Role="Проекты" EntitySet="Проекты" />
+            <End Role="Задачи" EntitySet="Задачи" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Комментар__ID_За__4222D4EF" Association="Self.FK__Комментар__ID_За__4222D4EF">
+            <End Role="Задачи" EntitySet="Задачи" />
+            <End Role="Комментарии" EntitySet="Комментарии" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Комментар__ID_По__4316F928" Association="Self.FK__Комментар__ID_По__4316F928">
+            <End Role="Пользователи" EntitySet="Пользователи" />
+            <End Role="Комментарии" EntitySet="Комментарии" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Задачи">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Описание" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Статус" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ID_Проекта" Type="Int32" />
+          <Property Name="ID_Пользователя" Type="Int32" />
+          <Property Name="Дата_создания" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Пользователи" Relationship="Self.FK__Задачи__ID_Польз__3E52440B" FromRole="Задачи" ToRole="Пользователи" />
+          <NavigationProperty Name="Проекты" Relationship="Self.FK__Задачи__ID_Проек__3D5E1FD2" FromRole="Задачи" ToRole="Проекты" />
+          <NavigationProperty Name="Комментарии" Relationship="Self.FK__Комментар__ID_За__4222D4EF" FromRole="Задачи" ToRole="Комментарии" />
+        </EntityType>
+        <EntityType Name="Комментарии">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Текст" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ID_Задачи" Type="Int32" />
+          <Property Name="ID_Пользователя" Type="Int32" />
+          <Property Name="Дата_создания" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Задачи" Relationship="Self.FK__Комментар__ID_За__4222D4EF" FromRole="Комментарии" ToRole="Задачи" />
+          <NavigationProperty Name="Пользователи" Relationship="Self.FK__Комментар__ID_По__4316F928" FromRole="Комментарии" ToRole="Пользователи" />
+        </EntityType>
+        <EntityType Name="Пользователи">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Имя" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Почта" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Задачи" Relationship="Self.FK__Задачи__ID_Польз__3E52440B" FromRole="Пользователи" ToRole="Задачи" />
+          <NavigationProperty Name="Комментарии" Relationship="Self.FK__Комментар__ID_По__4316F928" FromRole="Пользователи" ToRole="Комментарии" />
+        </EntityType>
+        <EntityType Name="Проекты">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Описание" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Задачи" Relationship="Self.FK__Задачи__ID_Проек__3D5E1FD2" FromRole="Проекты" ToRole="Задачи" />
+        </EntityType>
+        <Association Name="FK__Задачи__ID_Польз__3E52440B">
+          <End Role="Пользователи" Type="Self.Пользователи" Multiplicity="0..1" />
+          <End Role="Задачи" Type="Self.Задачи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователи">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Задачи">
+              <PropertyRef Name="ID_Пользователя" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Задачи__ID_Проек__3D5E1FD2">
+          <End Role="Проекты" Type="Self.Проекты" Multiplicity="0..1" />
+          <End Role="Задачи" Type="Self.Задачи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Проекты">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Задачи">
+              <PropertyRef Name="ID_Проекта" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Комментар__ID_За__4222D4EF">
+          <End Role="Задачи" Type="Self.Задачи" Multiplicity="0..1" />
+          <End Role="Комментарии" Type="Self.Комментарии" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Задачи">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Комментарии">
+              <PropertyRef Name="ID_Задачи" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Комментар__ID_По__4316F928">
+          <End Role="Пользователи" Type="Self.Пользователи" Multiplicity="0..1" />
+          <End Role="Комментарии" Type="Self.Комментарии" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователи">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Комментарии">
+              <PropertyRef Name="ID_Пользователя" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Задачи" EntityType="Self.Задачи" />
+          <EntitySet Name="Комментарии" EntityType="Self.Комментарии" />
+          <EntitySet Name="Пользователи" EntityType="Self.Пользователи" />
+          <EntitySet Name="Проекты" EntityType="Self.Проекты" />
+          <AssociationSet Name="FK__Задачи__ID_Польз__3E52440B" Association="Self.FK__Задачи__ID_Польз__3E52440B">
+            <End Role="Пользователи" EntitySet="Пользователи" />
+            <End Role="Задачи" EntitySet="Задачи" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Задачи__ID_Проек__3D5E1FD2" Association="Self.FK__Задачи__ID_Проек__3D5E1FD2">
+            <End Role="Проекты" EntitySet="Проекты" />
+            <End Role="Задачи" EntitySet="Задачи" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Комментар__ID_За__4222D4EF" Association="Self.FK__Комментар__ID_За__4222D4EF">
+            <End Role="Задачи" EntitySet="Задачи" />
+            <End Role="Комментарии" EntitySet="Комментарии" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Комментар__ID_По__4316F928" Association="Self.FK__Комментар__ID_По__4316F928">
+            <End Role="Пользователи" EntitySet="Пользователи" />
+            <End Role="Комментарии" EntitySet="Комментарии" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ModelContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Задачи">
+            <EntityTypeMapping TypeName="Model.Задачи">
+              <MappingFragment StoreEntitySet="Задачи">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="Описание" ColumnName="Описание" />
+                <ScalarProperty Name="Статус" ColumnName="Статус" />
+                <ScalarProperty Name="ID_Проекта" ColumnName="ID_Проекта" />
+                <ScalarProperty Name="ID_Пользователя" ColumnName="ID_Пользователя" />
+                <ScalarProperty Name="Дата_создания" ColumnName="Дата_создания" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Комментарии">
+            <EntityTypeMapping TypeName="Model.Комментарии">
+              <MappingFragment StoreEntitySet="Комментарии">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Текст" ColumnName="Текст" />
+                <ScalarProperty Name="ID_Задачи" ColumnName="ID_Задачи" />
+                <ScalarProperty Name="ID_Пользователя" ColumnName="ID_Пользователя" />
+                <ScalarProperty Name="Дата_создания" ColumnName="Дата_создания" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Пользователи">
+            <EntityTypeMapping TypeName="Model.Пользователи">
+              <MappingFragment StoreEntitySet="Пользователи">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="Почта" ColumnName="Почта" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Проекты">
+            <EntityTypeMapping TypeName="Model.Проекты">
+              <MappingFragment StoreEntitySet="Проекты">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="Описание" ColumnName="Описание" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
