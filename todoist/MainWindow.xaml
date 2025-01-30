@@ -4,50 +4,132 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="трекер задач" Height="600" Width="800">
+ Title="Трекер задач" Height="600" Width="800">
+
     <Grid>
         <TabControl Name="TabControl">
 
+            <!-- Задачи Tab -->
             <TabItem Header="Задачи">
-                <Grid>
-                    <DataGrid Name="TasksDataGrid" AutoGenerateColumns="True" Margin="10" />
-                    <Button Content="Добавить задачу" Width="100" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10"
-                            Click="AddTask_Click"/>
-                </Grid>
+                <StackPanel>
+                <ListView Name="TasksListView" Margin="10" SelectionMode="Single">
+                    <ListView.View>
+                        <GridView>
+                                <GridViewColumn Header="Задача"  Width="200">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Название}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Описание"  Width="300">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Описание}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                            
+                            <GridViewColumn Header="Статус" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Статус}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Button Content="Добавить задачу" Width="100" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10"
+        Click="AddTask_Click"/>
+                </StackPanel>
             </TabItem>
 
- 
+            <!-- Проекты Tab -->
             <TabItem Header="Проекты">
-                <Grid>
-                    <DataGrid Name="ProjectsDataGrid" AutoGenerateColumns="True" Margin="10"/>
-                    <Button Content="Добавить проект" Width="100" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10"
-                            Click="AddProject_Click"/>
-                </Grid>
+                <StackPanel>
+                <ListView Name="ProjectsListView" Margin="10" SelectionMode="Single">
+                    <ListView.View>
+                        <GridView>
+                                <GridViewColumn Header="Проект" Width="200">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Название}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Описание"  Width="300">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Описание}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Button Content="Добавить проект" Width="100" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10"
+        Click="AddProject_Click"/>
+                </StackPanel>
             </TabItem>
 
-
-            <TabItem Header="Пользователи" Height="20" VerticalAlignment="Top">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="39*"/>
-                        <ColumnDefinition Width="358*"/>
-                    </Grid.ColumnDefinitions>
-                    <DataGrid Name="UsersDataGrid" AutoGenerateColumns="True" Margin="10,10,10,10" Grid.ColumnSpan="2"/>
+            <!-- Пользователи Tab -->
+            <TabItem Header="Пользователи">
+                <StackPanel>
+                    <ListView Name="UsersListView" Margin="10" SelectionMode="Single">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Имя" Width="200">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Имя}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Почта" Width="300">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Почта}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                     <Button Content="Добавить пользователя" Width="142" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,27,20"
-                            Click="AddUser_Click" Grid.Column="1"/>
-                </Grid>
+            Click="AddUser_Click"/>
+                </StackPanel>
             </TabItem>
 
-
+            <!-- Комментарии Tab -->
             <TabItem Header="Комментарии">
-                <Grid>
-                    <DataGrid Name="CommentsDataGrid" AutoGenerateColumns="True" Margin="10"/>
-                    <Button Content="Добавить комментарий" Width="144" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10"
-                            Click="AddComment_Click"/>
-                </Grid>
+                <StackPanel>
+                <ListView Name="CommentsListView" Margin="10" SelectionMode="Single">
+                    <ListView.View>
+                        <GridView>
+                                <GridViewColumn Header="Комментарий" Width="400">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Текст}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Дата"  Width="150">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Дата_создания}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Button Content="Добавить комментарий" Width="144" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10"
+         Click="AddComment_Click"/>
+                </StackPanel>
             </TabItem>
+
         </TabControl>
     </Grid>
 </Page>
-
 

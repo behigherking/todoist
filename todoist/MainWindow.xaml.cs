@@ -22,17 +22,14 @@ namespace todoist
 {
     public partial class MainWindow : Page
     {
-        private string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=TaskTracker;Integrated Security=True";
+        private Entities _context;
 
         public MainWindow()
         {
             InitializeComponent();
-            LoadData();
-        }
+            _context = new Entities();
 
-        // Загрузка данных в таблицы (Tasks, Projects, Users, Comments)
-        private void LoadData()
-        {
+            // Загружаем данные в ListView
             LoadTasks();
             LoadProjects();
             LoadUsers();
@@ -41,80 +38,57 @@ namespace todoist
 
         private void LoadTasks()
         {
-            string query = "SELECT * FROM Задачи";
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                TasksDataGrid.ItemsSource = dt.DefaultView;
-            }
+            // Загрузка задач в ListView
+            var tasks = _context.Задачи.ToList();
+            TasksListView.ItemsSource = tasks;
         }
 
         private void LoadProjects()
         {
-            string query = "SELECT * FROM Проекты";
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                ProjectsDataGrid.ItemsSource = dt.DefaultView;
-            }
+            // Загрузка проектов в ListView
+            var projects = _context.Проекты.ToList();
+            ProjectsListView.ItemsSource = projects;
         }
 
         private void LoadUsers()
         {
-            string query = "SELECT * FROM Пользователи";
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                UsersDataGrid.ItemsSource = dt.DefaultView;
-            }
+            // Загрузка пользователей в ListView
+            var users = _context.Пользователи.ToList();
+            UsersListView.ItemsSource = users;
         }
 
         private void LoadComments()
         {
-            string query = "SELECT * FROM Комментарии";
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                CommentsDataGrid.ItemsSource = dt.DefaultView;
-            }
+            // Загрузка комментариев в ListView
+            var comments = _context.Комментарии.ToList();
+            CommentsListView.ItemsSource = comments;
         }
 
-        // Добавление задачи
         private void AddTask_Click(object sender, RoutedEventArgs e)
         {
-            var addTaskWindow = new AddTaskWindow();
+
+            AddTaskWindow addTaskWindow = new AddTaskWindow(null);
             addTaskWindow.ShowDialog();
             LoadTasks();
         }
 
-        // Добавление проекта
         private void AddProject_Click(object sender, RoutedEventArgs e)
         {
-            var addProjectWindow = new AddProjectWindow();
+            AddProjectWindow addProjectWindow = new AddProjectWindow();
             addProjectWindow.ShowDialog();
             LoadProjects();
         }
 
-        // Добавление пользователя
         private void AddUser_Click(object sender, RoutedEventArgs e)
         {
-            var addUserWindow = new AddUserWindow();
+            AddUserWindow addUserWindow = new AddUserWindow();
             addUserWindow.ShowDialog();
             LoadUsers();
         }
 
-        // Добавление комментария
         private void AddComment_Click(object sender, RoutedEventArgs e)
         {
-            var addCommentWindow = new AddCommentWindow();
+            AddCommentWindow addCommentWindow = new AddCommentWindow();
             addCommentWindow.ShowDialog();
             LoadComments();
         }

@@ -18,30 +18,32 @@ namespace todoist
 {
     public partial class AddUserWindow : Window
     {
-        private string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=TaskTracker;Integrated Security=True";
+        private Entities _context;
 
         public AddUserWindow()
         {
             InitializeComponent();
+            _context = new Entities();
         }
 
-        // Сохранить пользователя
-        private void SaveUser_Click(object sender, RoutedEventArgs e)
+        private void AddUserButton_Click(object sender, RoutedEventArgs e)
         {
-            string userName = UserName.Text;
-            string userEmail = UserEmail.Text;
-
-            string query = "INSERT INTO Пользователи (Имя, Почта) VALUES (@Имя, @Почта)";
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            if (!string.IsNullOrEmpty(UserNameTextBox.Text) && !string.IsNullOrEmpty(UserEmailTextBox.Text))
             {
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@Имя", userName);
-                cmd.Parameters.AddWithValue("@Почта", userEmail);
-                conn.Open();
-                cmd.ExecuteNonQuery();
+                var newUser = new Пользователи
+                {
+                    Имя = UserNameTextBox.Text,
+                    Почта = UserEmailTextBox.Text
+                };
+
+                _context.Пользователи.Add(newUser);
+                _context.SaveChanges();
                 MessageBox.Show("Пользователь добавлен!");
                 this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Заполните имя и почту пользователя.");
             }
         }
     }

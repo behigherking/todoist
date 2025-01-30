@@ -18,28 +18,33 @@ namespace todoist
 {
     public partial class AddCommentWindow : Window
     {
-        private string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=TaskTracker;Integrated Security=True";
+        private Entities _context;
 
         public AddCommentWindow()
         {
             InitializeComponent();
+            _context = new Entities();
         }
 
-        // Сохранить комментарий
-        private void SaveComment_Click(object sender, RoutedEventArgs e)
+        private void AddCommentButton_Click(object sender, RoutedEventArgs e)
         {
-            string commentText = CommentText.Text;
-
-            string query = "INSERT INTO Комментарии (Текст) VALUES (@Текст)";
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            if (!string.IsNullOrEmpty(CommentTextBox.Text))
             {
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@Текст", commentText);
-                conn.Open();
-                cmd.ExecuteNonQuery();
+                var newComment = new Комментарии
+                {
+                    Текст = CommentTextBox.Text,
+                    ID_Задачи = 1, // Пример ID задачи, его нужно будет установить динамически
+                    ID_Пользователя = 1 // Пример ID пользователя, его нужно будет установить динамически
+                };
+
+                _context.Комментарии.Add(newComment);
+                _context.SaveChanges();
                 MessageBox.Show("Комментарий добавлен!");
                 this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Заполните текст комментария.");
             }
         }
     }

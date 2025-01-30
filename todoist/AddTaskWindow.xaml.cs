@@ -18,31 +18,35 @@ namespace todoist
 {
     public partial class AddTaskWindow : Window
     {
-        private string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=TaskTracker;Integrated Security=True";
+        private Задачи _task;
+        private Entities _context;
 
-        public AddTaskWindow()
+        public AddTaskWindow(Задачи task)
         {
             InitializeComponent();
+            _task = task;
+            _context = new Entities();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void AddTaskButton_Click(object sender, RoutedEventArgs e)
         {
-            string taskName = TaskName.Text;
-            string taskDescription = TaskDescription.Text;
-            string taskStatus = ((ComboBoxItem)TaskStatus.SelectedItem).Content.ToString();
-
-            string query = "INSERT INTO Задачи (Название, Описание, Статус) VALUES (@Название, @Описание, @Статус)";
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            if (!string.IsNullOrEmpty(TaskNameTextBox.Text))
             {
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@Название", taskName);
-                cmd.Parameters.AddWithValue("@Описание", taskDescription);
-                cmd.Parameters.AddWithValue("@Статус", taskStatus);
-                conn.Open();
-                cmd.ExecuteNonQuery();
+                var newTask = new Задачи
+                {
+                    Название = TaskNameTextBox.Text,
+                    Описание = TaskDescriptionTextBox.Text,
+                    Статус = "Новая" // по умолчанию
+                };
+
+                _context.Задачи.Add(newTask);
+                _context.SaveChanges();
                 MessageBox.Show("Задача добавлена!");
                 this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Заполните название задачи.");
             }
         }
     }

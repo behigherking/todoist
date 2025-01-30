@@ -18,30 +18,32 @@ namespace todoist
 {
     public partial class AddProjectWindow : Window
     {
-        private string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=TaskTracker;Integrated Security=True";
+        private Entities _context;
 
         public AddProjectWindow()
         {
             InitializeComponent();
+            _context = new Entities();
         }
 
-        // Сохранить проект
-        private void SaveProject_Click(object sender, RoutedEventArgs e)
+        private void AddProjectButton_Click(object sender, RoutedEventArgs e)
         {
-            string projectName = ProjectName.Text;
-            string projectDescription = ProjectDescription.Text;
-
-            string query = "INSERT INTO Проекты (Название, Описание) VALUES (@Название, @Описание)";
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            if (!string.IsNullOrEmpty(ProjectNameTextBox.Text))
             {
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@Название", projectName);
-                cmd.Parameters.AddWithValue("@Описание", projectDescription);
-                conn.Open();
-                cmd.ExecuteNonQuery();
+                var newProject = new Проекты
+                {
+                    Название = ProjectNameTextBox.Text,
+                    Описание = ProjectDescriptionTextBox.Text
+                };
+
+                _context.Проекты.Add(newProject);
+                _context.SaveChanges();
                 MessageBox.Show("Проект добавлен!");
                 this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Заполните название проекта.");
             }
         }
     }
